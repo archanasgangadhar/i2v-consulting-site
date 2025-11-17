@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/assets/i2v-logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>I2V Consulting – Transformation Partner</title>
+
+    <!-- Optional SEO / Branding -->
+    <meta name="description" content="I2V Consulting is a transformation partner focused on Go-To-Market strategy, digital transformation, staffing, training, and drone-enabled agricultural services." />
+    <meta name="theme-color" content="#D32F2F" />
+  </head>
+
+  <body class="antialiased bg-white">
+    <!-- React app mounts here -->
+    <div id="root"></div>
+
+    <!-- Vite automatically injects your JS bundle -->
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
