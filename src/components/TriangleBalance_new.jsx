@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import logo from "/assets/images/logo-small.jpg";
+import logo from "/assets/images/logo_trans1.png";
 import triangleBG from "/assets/images/triangle_bg1.png";
 
 /* -----------------------------------------
@@ -9,9 +9,9 @@ const globalStyle = `
   /* Slider base line */
   input[type=range] {
     -webkit-appearance: none;
-    width: 200px;
+    width: 100px;
     height: 10px;
-    background: #0c0c0cff;
+    background: #878282ff;
     border-radius: 4px;
     touch-action: pan-y;
     -webkit-tap-highlight-color: transparent;
@@ -83,7 +83,7 @@ export default function TriangleBalance_New_NoContainerEffects() {
       setProcess(seq[i].process);
       i++;
       if (i >= seq.length) clearInterval(intv);
-    }, 850);
+    }, 1850);
 
     return () => clearInterval(intv);
   }, []);
@@ -115,11 +115,12 @@ export default function TriangleBalance_New_NoContainerEffects() {
         <div
           className={`
             relative
-            w-[260px] h-[260px]
-            sm:w-[320px] sm:h-[320px]
-            md:w-[360px] md:h-[360px]
-            lg:w-[420px] lg:h-[420px]
-            transition-all duration-700
+            w-[220px] h-[220px]
+sm:w-[280px] sm:h-[280px]
+md:w-[320px] md:h-[300px]
+lg:w-[360px] lg:h-[330px]
+
+            transition-all duration-1700
             ${isMounted ? "opacity-100 scale-100" : "opacity-0 scale-75"}
           `}
         >
@@ -159,6 +160,7 @@ export default function TriangleBalance_New_NoContainerEffects() {
           </Node>
 
           {/* PROCESS NODE */}
+          
           <Node x={RIGHT.x} y={RIGHT.y} label="Process" icon="⚙️" tint={COLOR_PROCESS}>
             <Slider value={process} onChange={setProcess} />
           </Node>
@@ -167,7 +169,7 @@ export default function TriangleBalance_New_NoContainerEffects() {
           <img
             src={logo}
             alt="Logo"
-            className="absolute w-12 h-12 rounded-full triangle-logo-pulse transition-all duration-600 ease-out"
+            className="absolute w-18 h-18 rounded-full triangle-logo-pulse transition-all duration-600 ease-out"
             style={{
               left: `calc(${centerX}% - 24px)`,
               top: `calc(${centerY}% - 24px)`
@@ -215,8 +217,26 @@ function Node({ x, y, label, icon, tint, children }) {
         <span className="text-lg sm:text-xl">{icon}</span>
       </div>
 
-      <div className="text-[10px] sm:text-[12px] mt-1 font-semibold">{label}</div>
-      <div className="mt-1">{children}</div>
+      <div
+  className="mt-2 font-extrabold text-black"
+  style={{
+    fontSize: "20px",
+    textShadow: `
+      1px 1px 6px rgba(247, 243, 243, 0.95),
+      -1px -1px 3px rgba(221, 15, 15, 0.45)
+    `
+  }}
+>{label}</div>
+       <div
+  className="mt-2 font-extrabold text-black"
+  style={{
+    fontSize: "50px",
+    textShadow: `
+      1px 1px 6px rgba(247, 243, 243, 0.95),
+      -1px -1px 3px rgba(221, 15, 15, 0.45)
+    `
+  }}
+>{children}</div>
     </div>
   );
 }

@@ -22,7 +22,7 @@ export default function Header() {
 
         {/* LOGO */}
         <div className="flex items-center gap-3">
-          <img src="/assets/images/logo2.jpg" className="h-14" alt="I2V Logo" />
+          <img src="/assets/images/logo2.jpg" className="h-20" alt="I2V Logo" />
           <span style={{ fontFamily: "Candara" }} className="font-bold text-xl tracking-wide text-[#222]">
             Idea to value
           </span>
