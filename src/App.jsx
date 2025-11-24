@@ -14,7 +14,7 @@ import Dashboard from "./pages/Dashboard";
 import ClientLogin from "./pages/ClientLogin";
 import EmployeeLogin from "./pages/EmployeeLogin";
 import VendorLogin from "./pages/VendorLogin";
-
+import AssessmentWizard from "./pages/AssessmentWizard";
 export default function App() {
   return (
     <Router>
@@ -34,6 +34,7 @@ export default function App() {
           <Route path="/login/client" element={<ClientLogin />} />
           <Route path="/login/employee" element={<EmployeeLogin />} />
           <Route path="/login/vendor" element={<VendorLogin />} />
+           <Route path="/assessment" element={<AssessmentWizard />} />
         </Routes>
       </div>
 

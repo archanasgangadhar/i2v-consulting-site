@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product–People–Process Balance Diagnostic</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #020617;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.08);
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --border-subtle: #1f2937;
+      --danger: #f97373;
+      --warning: #facc15;
+      --success: #22c55e;
+      --radius-xl: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #1f2937 0, #020617 40%, #020617 100%);
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      padding: 32px 16px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 960px;
+      background: linear-gradient(135deg, #020617, #020617);
+      border-radius: 24px;
+      padding: 28px 24px 24px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      box-shadow: 0 30px 80px rgba(15, 23, 42, 0.9);
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    header .title-block h1 {
+      font-size: 1.6rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      margin-bottom: 4px;
+    }
+
+    header .title-block p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    header .pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .section {
+      margin-bottom: 20px;
+      border-radius: var(--radius-xl);
+      padding: 14px 14px 10px;
+      background: radial-gradient(circle at top left, #020617, #020617);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title span.badge {
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .scale-legend {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .questions-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .question {
+      padding: 10px 10px 8px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(31, 41, 55, 0.9);
+    }
+
+    .question-text {
+      font-size: 0.85rem;
+      margin-bottom: 6px;
+    }
+
+    .options {
+      display: flex;
+      justify-content: space-between;
+      gap: 4px;
+    }
+
+    .option {
+      flex: 1;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .option input {
+      margin-bottom: 2px;
+      accent-color: var(--accent);
+    }
+
+    .option span {
+      display: block;
+    }
+
+    .hint-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 4px 4px 0;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .hint-row span:first-child {
+      text-align: left;
+    }
+
+    .hint-row span:last-child {
+      text-align: right;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 10px;
+      margin-bottom: 4px;
+    }
+
+    button {
+      border-radius: 999px;
+      border: none;
+      font-size: 0.9rem;
+      padding: 8px 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    button.primary {
+      background: radial-gradient(circle at top left, #38bdf8, #0ea5e9);
+      color: #0b1120;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(8, 47, 73, 0.8);
+    }
+
+    button.secondary {
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text-muted);
+      border: 1px solid var(--border-subtle);
+    }
+
+    button:active {
+      transform: translateY(1px);
+      box-shadow: none;
+    }
+
+    #results {
+      margin-top: 10px;
+      border-radius: var(--radius-xl);
+      padding: 12px 14px 10px;
+      background: radial-gradient(circle at top right, #020617, #020617);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      display: none;
+    }
+
+    #results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    #results-header h2 {
+      font-size: 1rem;
+    }
+
+    .overall-chip {
+      font-size: 0.8rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .result-card {
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid var(--border-subtle);
+      font-size: 0.82rem;
+    }
+
+    .result-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .result-label {
+      font-weight: 500;
+    }
+
+    .result-score {
+      font-variant-numeric: tabular-nums;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .badge-rating {
+      font-size: 0.7rem;
+      padding: 2px 7px;
+      border-radius: 999px;
+    }
+
+    .badge-strong {
+      background: rgba(22, 163, 74, 0.18);
+      color: var(--success);
+      border: 1px solid rgba(34, 197, 94, 0.6);
+    }
+
+    .badge-moderate {
+      background: rgba(202, 138, 4, 0.18);
+      color: var(--warning);
+      border: 1px solid rgba(250, 204, 21, 0.7);
+    }
+
+    .badge-weak, .badge-critical {
+      background: rgba(185, 28, 28, 0.18);
+      color: var(--danger);
+      border: 1px solid rgba(248, 113, 113, 0.85);
+    }
+
+    .result-note {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .result-note strong {
+      color: var(--text-main);
+    }
+
+    .mini-legend {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      border-top: 1px dashed rgba(55, 65, 81, 0.9);
+      padding-top: 6px;
+      margin-top: 4px;
+    }
+
+    .error {
+      margin-top: 4px;
+      font-size: 0.78rem;
+      color: var(--danger);
+      display: none;
+    }
+
+    @media (max-width: 640px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      body {
+        padding: 16px 10px;
+      }
+      .container {
+        padding: 18px 14px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="title-block">
+        <h1>Product–People–Process Balance Diagnostic</h1>
+        <p>Rate each statement from 1 (Strongly No) to 5 (Strongly Yes) to assess how balanced your organisation is.</p>
+      </div>
+      <div class="pill">1–5 Likert • Max score: 45</div>
+    </header>
+
+    <form id="assessmentForm">
+      <!-- PRODUCT -->
+      <section class="section" aria-labelledby="product-heading">
+        <div class="section-header">
+          <div class="section-title">
+            <span>📦 Product</span>
+            <span class="badge">Customer value & strategy</span>
+          </div>
+          <div class="scale-legend">1 = Strongly No · 5 = Strongly Yes</div>
+        </div>
+        <div class="questions-grid">
+          <div class="question" data-section="product">
+            <div class="question-text">
+              1. We regularly validate that our product solves a relevant and current customer problem.
+            </div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="product_q1" value="1" required />
+                <span>1</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="product_q1" value="2" />
+                <span>2</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="product_q1" value="3" />
+                <span>3</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="product_q1" value="4" />
+                <span>4</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="product_q1" value="5" />
+                <span>5</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="question" data-section="product">
+            <div class="question-text">
+              2. We balance investment in innovation and new features with the stability and quality of existing offerings.
+            </div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="product_q2" value="1" required />
+                <span>1</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="product_q2" value="2" />
+                <span>2</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="product_q2" value="3" />
+                <span>3</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="product_q2" value="4" />
+                <span>4</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="product_q2" value="5" />
+                <span>5</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="question" data-section="product">
+            <div class="question-text">
+              3. Our product strategy is realistic given our teams’ capabilities and current processes (we’re not over-stretching one area to compensate for another).
+            </div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="product_q3" value="1" required />
+                <span>1</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="product_q3" value="2" />
+                <span>2</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="product_q3" value="3" />
+                <span>3</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="product_q3" value="4" />
+                <span>4</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="product_q3" value="5" />
+                <span>5</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="hint-row">
+          <span>Low score → unclear value / reactive roadmap</span>
+          <span>High score → focused, validated product strategy</span>
+        </div>
+      </section>
+
+      <!-- PEOPLE -->
+      <section class="section" aria-labelledby="people-heading">
+        <div class="section-header">
+          <div class="section-title">
+            <span>👥 People</span>
+            <span class="badge">Skills, engagement & collaboration</span>
+          </div>
+          <div class="scale-legend">1 = Strongly No · 5 = Strongly Yes</div>
+        </div>
+        <div class="questions-grid">
+          <div class="question" data-section="people">
+            <div class="question-text">
+              4. We have the right people with the right skills in the right roles to deliver on our product and process goals.
+            </div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="people_q1" value="1" required />
+                <span>1</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="people_q1" value="2" />
+                <span>2</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="people_q1" value="3" />
+                <span>3</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="people_q1" value="4" />
+                <span>4</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="people_q1" value="5" />
+                <span>5</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="question" data-section="people">
+            <div class="question-text">
+              5. People are motivated, empowered, and clearly understand how their work connects to product and organisational outcomes.
+            </div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="people_q2" value="1" required />
+                <span>1</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="people_q2" value="2" />
+                <span>2</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="people_q2" value="3" />
+                <span>3</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="people_q2" value="4" />
+                <span>4</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="people_q2" value="5" />
+                <span>5</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="question" data-section="people">
+            <div class="question-text">
+              6. Teams collaborate effectively across functions (e.g., product, engineering, operations, sales) without destructive silos.
+            </div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="people_q3" value="1" required />
+                <span>1</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="people_q3" value="2" />
+                <span>2</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="people_q3" value="3" />
+                <span>3</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="people_q3" value="4" />
+                <span>4</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="people_q3" value="5" />
+                <span>5</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="hint-row">
+          <span>Low score → role gaps / low engagement / silos</span>
+          <span>High score → healthy, aligned, cross-functional teams</span>
+        </div>
+      </section>
+
+      <!-- PROCESS -->
+      <section class="section" aria-labelledby="process-heading">
+        <div class="section-header">
+          <div class="section-title">
+            <span>⚙️ Process</span>
+            <span class="badge">Execution & governance</span>
+          </div>
+          <div class="scale-legend">1 = Strongly No · 5 = Strongly Yes</div>
+        </div>
+        <div class="questions-grid">
+          <div class="question" data-section="process">
+            <div class="question-text">
+              7. Our processes are efficient enough to avoid bottlenecks but flexible enough to adapt to product or market changes.
+            </div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="process_q1" value="1" required />
+                <span>1</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="process_q1" value="2" />
+                <span>2</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="process_q1" value="3" />
+                <span>3</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="process_q1" value="4" />
+                <span>4</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="process_q1" value="5" />
+                <span>5</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="question" data-section="process">
+            <div class="question-text">
+              8. Ownership, decision rights, and progress are clearly visible across teams and functions.
+            </div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="process_q2" value="1" required />
+                <span>1</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="process_q2" value="2" />
+                <span>2</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="process_q2" value="3" />
+                <span>3</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="process_q2" value="4" />
+                <span>4</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="process_q2" value="5" />
+                <span>5</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="question" data-section="process">
+            <div class="question-text">
+              9. Our processes help people do high-quality work and support timely, predictable product delivery (not add unnecessary friction).
+            </div>
+            <div class="options">
+              <label class="option">
+                <input type="radio" name="process_q3" value="1" required />
+                <span>1</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="process_q3" value="2" />
+                <span>2</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="process_q3" value="3" />
+                <span>3</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="process_q3" value="4" />
+                <span>4</span>
+              </label>
+              <label class="option">
+                <input type="radio" name="process_q3" value="5" />
+                <span>5</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="hint-row">
+          <span>Low score → bureaucracy / chaos / bottlenecks</span>
+          <span>High score → clear, enabling operating system</span>
+        </div>
+      </section>
+
+      <div class="actions">
+        <button type="button" class="secondary" id="resetBtn">Clear</button>
+        <button type="submit" class="primary">
+          Calculate balance
+        </button>
+      </div>
+      <div id="error" class="error">Please answer all questions before calculating.</div>
+    </form>
+
+    <section id="results">
+      <div id="results-header">
+        <h2>Results</h2>
+        <div class="overall-chip">
+          Overall balance: <span id="overallPercent">–</span>%
+        </div>
+      </div>
+      <div class="results-grid">
+        <div class="result-card">
+          <div class="result-card-header">
+            <span class="result-label">📦 Product</span>
+            <span class="result-score" id="productScoreLabel"></span>
+          </div>
+          <div class="badge-rating" id="productRatingBadge"></div>
+          <p class="result-note" id="productNote"></p>
+        </div>
+
+        <div class="result-card">
+          <div class="result-card-header">
+            <span class="result-label">👥 People</span>
+            <span class="result-score" id="peopleScoreLabel"></span>
+          </div>
+          <div class="badge-rating" id="peopleRatingBadge"></div>
+          <p class="result-note" id="peopleNote"></p>
+        </div>
+
+        <div class="result-card">
+          <div class="result-card-header">
+            <span class="result-label">⚙️ Process</span>
+            <span class="result-score" id="processScoreLabel"></span>
+          </div>
+          <div class="badge-rating" id="processRatingBadge"></div>
+          <p class="result-note" id="processNote"></p>
+        </div>
+      </div>
+      <p class="mini-legend">
+        Interpretation per pillar: <strong>13–15 = Strong</strong>, <strong>10–12 = Moderate</strong>, <strong>7–9 = Weak</strong>, <strong>1–6 = Critical</strong>.
+        Overall balance is total / 45.
+      </p>
+    </section>
+  </div>
+
+  <script>
+    (function () {
+      const form = document.getElementById("assessmentForm");
+      const resetBtn = document.getElementById("resetBtn");
+      const resultsSection = document.getElementById("results");
+      const errorEl = document.getElementById("error");
+
+      const overallPercentEl = document.getElementById("overallPercent");
+      const productScoreLabel = document.getElementById("productScoreLabel");
+      const peopleScoreLabel = document.getElementById("peopleScoreLabel");
+      const processScoreLabel = document.getElementById("processScoreLabel");
+
+      const productRatingBadge = document.getElementById("productRatingBadge");
+      const peopleRatingBadge = document.getElementById("peopleRatingBadge");
+      const processRatingBadge = document.getElementById("processRatingBadge");
+
+      const productNote = document.getElementById("productNote");
+      const peopleNote = document.getElementById("peopleNote");
+      const processNote = document.getElementById("processNote");
+
+      function getRating(score) {
+        if (score >= 13) return "Strong";
+        if (score >= 10) return "Moderate";
+        if (score >= 7) return "Weak";
+        return "Critical";
+      }
+
+      function ratingBadgeClass(rating) {
+        switch (rating) {
+          case "Strong":
+            return "badge-rating badge-strong";
+          case "Moderate":
+            return "badge-rating badge-moderate";
+          case "Weak":
+            return "badge-rating badge-weak";
+          case "Critical":
+            return "badge-rating badge-critical";
+          default:
+            return "badge-rating";
+        }
+      }
+
+      function ratingShortNote(section, rating) {
+        if (section === "product") {
+          if (rating === "Strong") return "Product strategy is well validated and balanced between innovation and stability.";
+          if (rating === "Moderate") return "Product is generally healthy; refine feedback loops and prioritisation to improve balance.";
+          if (rating === "Weak") return "Product direction, value, or trade-offs likely unclear. Sharpen customer insights and roadmap focus.";
+          return "Product–market alignment may be at risk. Prioritise discovery and focus before scaling further.";
+        }
+        if (section === "people") {
+          if (rating === "Strong") return "People, skills, and collaboration are well aligned to your goals.";
+          if (rating === "Moderate") return "Overall healthy people system; address specific hotspots in skills, engagement, or silos.";
+          if (rating === "Weak") return "Talent fit, engagement, or cross-team collaboration is likely limiting execution.";
+          return "Significant people issues are likely blocking performance. Address role clarity, leadership, and engagement urgently.";
+        }
+        if (section === "process") {
+          if (rating === "Strong") return "Processes are enabling execution without getting in the way of adaptability.";
+          if (rating === "Moderate") return "Processes mostly work; simplify or clarify where teams experience friction.";
+          if (rating === "Weak") return "Bureaucracy or chaos may be slowing teams. Focus on a simple, consistent operating rhythm.";
+          return "Execution risk is high. Redesign core processes around clarity, cadence, and decision speed.";
+        }
+        return "";
+      }
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        errorEl.style.display = "none";
+
+        const questions = form.querySelectorAll(".question");
+        const scores = {
+          product: 0,
+          people: 0,
+          process: 0,
+        };
+
+        for (const q of questions) {
+          const section = q.dataset.section;
+          const selected = q.querySelector('input[type="radio"]:checked');
+          if (!selected) {
+            errorEl.style.display = "block";
+            resultsSection.style.display = "none";
+            return;
+          }
+          const value = parseInt(selected.value, 10);
+          scores[section] += value;
+        }
+
+        const total = scores.product + scores.people + scores.process;
+        const percent = Math.round((total / 45) * 100);
+
+        const productRating = getRating(scores.product);
+        const peopleRating = getRating(scores.people);
+        const processRating = getRating(scores.process);
+
+        overallPercentEl.textContent = isNaN(percent) ? "–" : String(percent);
+        productScoreLabel.textContent = scores.product + " / 15";
+        peopleScoreLabel.textContent = scores.people + " / 15";
+        processScoreLabel.textContent = scores.process + " / 15";
+
+        productRatingBadge.className = ratingBadgeClass(productRating);
+        peopleRatingBadge.className = ratingBadgeClass(peopleRating);
+        processRatingBadge.className = ratingBadgeClass(processRating);
+
+        productRatingBadge.textContent = productRating;
+        peopleRatingBadge.textContent = peopleRating;
+        processRatingBadge.textContent = processRating;
+
+        productNote.textContent = ratingShortNote("product", productRating);
+        peopleNote.textContent = ratingShortNote("people", peopleRating);
+        processNote.textContent = ratingShortNote("process", processRating);
+
+        resultsSection.style.display = "block";
+      });
+
+      resetBtn.addEventListener("click", function () {
+        form.reset();
+        resultsSection.style.display = "none";
+        errorEl.style.display = "none";
+      });
+    })();
+  </script>
+</body>
+</html>

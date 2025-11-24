@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PPP Diagnostic Tool</title>
+
+<!-- Chart.js for Radar Chart -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #000;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Mobile-App Container */
+  .app-container {
+    max-width: 500px;
+    margin: auto;
+    padding: 20px;
+  }
+
+  /* Branding Header */
+  .branding {
+    text-align: center;
+    padding: 20px 10px;
+  }
+
+  .branding img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid #ff0000;
+    margin-bottom: 10px;
+  }
+
+  .branding h1 {
+    color: #ff0000;
+    font-size: 24px;
+    margin: 5px 0;
+  }
+
+  .branding p {
+    color: #ccc;
+    font-size: 14px;
+  }
+
+  /* Card Style */
+  .card {
+    background: #111;
+    padding: 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    border: 2px solid #ff0000;
+    box-shadow: 0px 0px 15px rgba(255,0,0,0.2);
+  }
+
+  h2 {
+    color: #ff0000;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  .question {
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 12px;
+    background: #000;
+    border-left: 4px solid #ff0000;
+  }
+
+  input[type="number"] {
+    margin-top: 8px;
+    width: 60px;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #ff0000;
+    background: #111;
+    color: #fff;
+    font-size: 16px;
+  }
+
+  button {
+    width: 100%;
+    padding: 15px;
+    background: #ff0000;
+    color: #fff;
+    border: none;
+    font-size: 18px;
+    border-radius: 12px;
+    margin-top: 10px;
+  }
+
+  button:hover {
+    background: #cc0000;
+  }
+
+  .results {
+    display: none;
+  }
+
+  canvas {
+    margin-top: 20px;
+    background: #111;
+    padding: 10px;
+    border-radius: 12px;
+  }
+
+</style>
+</head>
+
+<body>
+
+<div class="app-container">
+
+  <!-- BRANDING -->
+  <div class="branding">
+    <img src="https://via.placeholder.com/80x80.png?text=LOGO" alt="Logo">
+    <h1>OrgName Diagnostics</h1>
+    <p>Evaluating balance across Product • People • Process</p>
+  </div>
+
+  <form id="assessmentForm">
+
+    <!-- PRODUCT -->
+    <div class="card">
+      <h2>PRODUCT (10 Questions)</h2>
+
+      <!-- Auto-generate product questions -->
+      <script>
+        const productQuestions = [
+          "Our product solves a meaningful customer problem.",
+          "We regularly gather customer insights.",
+          "Our roadmap aligns with organisational strategy.",
+          "We balance innovation with product maintenance.",
+          "We prioritise based on customer value.",
+          "We understand our product’s market position.",
+          "Product KPIs are tracked consistently.",
+          "Product decisions are data-informed.",
+          "We release improvements at a sustainable pace.",
+          "Product strategy aligns with team capacity."
+        ];
+      </script>
+
+      <div id="product-container"></div>
+    </div>
+
+    <!-- PEOPLE -->
+    <div class="card">
+      <h2>PEOPLE (10 Questions)</h2>
+
+      <script>
+        const peopleQuestions = [
+          "People have the right skills for goals.",
+          "Roles are clearly defined.",
+          "Teams collaborate well.",
+          "Employees feel empowered.",
+          "Leaders communicate priorities.",
+          "Employees are motivated.",
+          "We invest in learning.",
+          "Feedback is constructive.",
+          "Psychological safety exists.",
+          "Leadership and teams are aligned."
+        ];
+      </script>
+
+      <div id="people-container"></div>
+    </div>
+
+    <!-- PROCESS -->
+    <div class="card">
+      <h2>PROCESS (10 Questions)</h2>
+
+      <script>
+        const processQuestions = [
+          "Processes are documented.",
+          "Workflows avoid bottlenecks.",
+          "Processes adapt to change.",
+          "Communication flows smoothly.",
+          "Decisions are made at the right level.",
+          "We have effective meeting rhythms.",
+          "Tools support productivity.",
+          "Accountability is clear.",
+          "Processes ensure quality.",
+          "Continuous improvement is practiced."
+        ];
+      </script>
+
+      <div id="process-container"></div>
+    </div>
+
+    <button type="button" onclick="calculateResults()">Calculate Score</button>
+
+  </form>
+
+  <div id="results" class="card results">
+    <h2>Assessment Results</h2>
+    <p id="productScore"></p>
+    <p id="peopleScore"></p>
+    <p id="processScore"></p>
+    <h3 id="overallScore" style="color:#ff0000;text-align:center;"></h3>
+
+    <canvas id="radarChart" width="300" height="300"></canvas>
+  </div>
+
+</div>
+
+<script>
+/* Dynamically populate questions */
+function loadQuestions(list, containerId, prefix) {
+  let container = document.getElementById(containerId);
+  list.forEach((q, index) => {
+    container.innerHTML += `
+      <div class="question">
+        <label>${index + 1}. ${q}</label><br>
+        <input type="number" min="0" max="1" name="${prefix}${index+1}" required>
+      </div>`;
+  });
+}
+
+loadQuestions(productQuestions, "product-container", "product");
+loadQuestions(peopleQuestions, "people-container", "people");
+loadQuestions(processQuestions, "process-container", "process");
+
+/* CALCULATE RESULTS + RADAR CHART */
+function calculateResults() {
+  const data = new FormData(document.getElementById("assessmentForm"));
+
+  let product = 0, people = 0, process = 0;
+
+  for (let [key, value] of data.entries()) {
+    let val = Number(value);
+    if (key.includes("product")) product += val;
+    if (key.includes("people")) people += val;
+    if (key.includes("process")) process += val;
+  }
+
+  let total = product + people + process;
+
+  document.getElementById("results").style.display = "block";
+  document.getElementById("productScore").textContent = `Product Score: ${product} / 10`;
+  document.getElementById("peopleScore").textContent = `People Score: ${people} / 10`;
+  document.getElementById("processScore").textContent = `Process Score: ${process} / 10`;
+  document.getElementById("overallScore").textContent = `Overall Score: ${total} / 30`;
+
+  // Radar Chart
+  const ctx = document.getElementById('radarChart').getContext('2d');
+
+  if (window.radarInstance) window.radarInstance.destroy();
+
+  window.radarInstance = new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: ["Product", "People", "Process"],
+      datasets: [{
+        label: "Scores",
+        data: [product, people, process],
+        backgroundColor: "rgba(255,0,0,0.3)",
+        borderColor: "#ff0000",
+        borderWidth: 2,
+        pointBackgroundColor: "#fff"
+      }]
+    },
+    options: {
+      scales: {
+        r: {
+          angleLines: { color: "#444" },
+          grid: { color: "#333" },
+          suggestedMin: 0,
+          suggestedMax: 10,
+          ticks: { color: "#fff", backdropColor: "#111" }
+        }
+      },
+      plugins: {
+        legend: { labels: { color: "#fff" } }
+      }
+    }
+  });
+}
+</script>
+
+</body>
+</html>
