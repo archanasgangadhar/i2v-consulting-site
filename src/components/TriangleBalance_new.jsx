@@ -39,8 +39,8 @@ const globalStyle = `
   }
 
   input[type=range]::-moz-range-thumb {
-    height: 18px;
-    width: 18px;
+    height: 12px;
+    width: 12px;
     background: #800000;
     border-radius: 50%;
     border: 2px solid black;
@@ -169,7 +169,7 @@ lg:w-[360px] lg:h-[330px]
           <img
             src={logo}
             alt="Logo"
-            className="absolute w-18 h-18 rounded-full triangle-logo-pulse transition-all duration-600 ease-out"
+            className="absolute w-12 h-12 rounded-full triangle-logo-pulse transition-all duration-600 ease-out"
             style={{
               left: `calc(${centerX}% - 24px)`,
               top: `calc(${centerY}% - 24px)`

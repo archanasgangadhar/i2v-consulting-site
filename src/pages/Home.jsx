@@ -1,6 +1,7 @@
 import React from "react";
 import TriangleBalance from "../components/TriangleBalance_new";
 import { Link } from "react-router-dom";
+import { TbMarquee } from "react-icons/tb";
 
 export default function Home() {
   return (
@@ -84,15 +85,14 @@ export default function Home() {
           className="font-semibold text-black"
           style={{ fontFamily: "Candara" }}
         >
-          
+         
           <Link to="/assessment" className="text-black-900 underline ml-1 bg-white/80 ">
           Take the assessment and unlock I2V’s guidance to balance Product, Process, and People.
           </Link>.
         </p>
       </div>
       <div className="mt-3 w-[90%] max-w-md bg-white/80 backdrop-blur-md shadow-lg border border-gray-300 rounded-xl p-4 text-center">
-  
-</div>
+ </div>
 
     </div>
   );

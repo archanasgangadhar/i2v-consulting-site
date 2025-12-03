@@ -1,190 +1,351 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { RiMenu3Fill, RiCloseFill } from "react-icons/ri";
 
 export default function Header() {
+  const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
+  const [shrink, setShrink] = useState(false);
 
   const toggleMobile = () => setMobileOpen(!mobileOpen);
-  const toggleDropdown = (name) =>
-    setOpenDropdown(openDropdown === name ? null : name);
+  const toggleDropdown = (key) =>
+    setOpenDropdown(openDropdown === key ? null : key);
+
+  useEffect(() => {
+    const handleScroll = () => setShrink(window.scrollY > 60);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <header className="fixed top-0 left-0 w-full 
-                   bg-white/30 backdrop-blur-lg shadow-md 
-                   border-b border-white/20 z-50">
+    <header
+      className={`
+        fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-xl 
+        border-b border-gray-300 shadow-md transition-all duration-300
+        ${shrink ? "py-1" : "py-3"}
+      `}
+      style={{ fontFamily: "Candara" }}
+    >
+      <div className="w-full h-[3px] bg-[#D32F2F] absolute top-0 left-0"></div>
 
-                        
-
-      {/* NAV CONTAINER */}
-      <div className="flex items-center justify-between px-2 py-1">
+      <div className="flex items-center justify-between px-6">
 
         {/* LOGO */}
-        <div className="flex items-center gap-3">
-          <img src="/assets/images/logo2.jpg" className="h-20" alt="I2V Logo" />
-          <span style={{ fontFamily: "Candara" }} className="font-bold text-xl tracking-wide text-[#222]">
-            Idea to value
+        <Link to="/" className="flex items-center gap-3">
+          <img
+            src="/assets/images/logo2.jpg"
+            className={`rounded-lg shadow-md transition-all ${
+              shrink ? "h-10" : "h-14"
+            }`}
+          />
+          <span
+            className={`font-bold tracking-wide text-[#222] transition-all ${
+              shrink ? "text-xl" : "text-2xl"
+            }`}
+          >
+            Idea to Value
           </span>
-        </div>
+        </Link>
 
-        {/* MOBILE BUTTON */}
-        <button className="md:hidden text-3xl text-[#222]" onClick={toggleMobile}>
+        {/* MOBILE ICON */}
+        <button
+          className="md:hidden text-4xl text-[#222]"
+          onClick={toggleMobile}
+        >
           {mobileOpen ? <RiCloseFill /> : <RiMenu3Fill />}
         </button>
 
-        {/* DESKTOP MENU */}
-        <nav 
-          className="hidden md:flex items-center gap-8 text-lg"
-          style={{ fontFamily: "Candara" }}
-        >
-          <NavLink to="/">Home</NavLink>
+        {/* DESKTOP NAV */}
+        <nav className="hidden md:flex items-center gap-10 font-semibold text-lg">
 
-          <Dropdown title="About Us" list={[
-            { label: "Our Story", to: "/our-story" },
-            { label: "Team", to: "/team" },
-            { label: "Mission", to: "/mission" }
-          ]} />
+          <NavItem to="/" label="Home" />
 
-          <Dropdown title="Services" list={[
-            { label: "Consultancy", to: "/consultancy" },
-            { label: "Execution", to: "/execution" }
-          ]} />
-
-          <NavLink to="/clients">Clients</NavLink>
-
-          <Dropdown title="Careers" list={[
-            { label: "Vacancy", to: "/vacancy" },
-            { label: "Online Interview", to: "/interview" },
-            { label: "Referral Program", to: "/referral" }
-          ]} />
-
-          <Dropdown title="Login" list={[
-            { label: "Login", to: "/login" },
-            { label: "Customer Login", to: "/customer-login" },
-            { label: "Vendor Login", to: "/vendor-login" },
-            { label: "Employee Login", to: "/employee-login" }
-          ]} />
-
-          <NavLink to="/contact">Contact</NavLink>
-        </nav>
-      </div>
-
-      {/* MOBILE MENU */}
-      {mobileOpen && (
-        <div
-          className="md:hidden bg-white/90 backdrop-blur-xl border-t border-gray-200 
-                     rounded-b-2xl px-6 py-4 space-y-4 animate-slideDown"
-          style={{ fontFamily: "Candara" }}
-        >
-          <MobileLink to="/" label="Home" />
-
-          <MobileDropdown
+          {/* ABOUT */}
+          <Dropdown
             title="About Us"
-            open={openDropdown === "about"}
-            onToggle={() => toggleDropdown("about")}
-            list={[
-              { label: "Our Story", to: "/our-story" },
+            items={[
+              { label: "Our Story", to: "/ourstory" },
               { label: "Team", to: "/team" },
-              { label: "Mission", to: "/mission" }
+              { label: "Mission", to: "/mission" },
             ]}
           />
 
-          <MobileDropdown
+          {/* SERVICES WITH MULTI-LEVEL SUBMENU */}
+          <Dropdown
             title="Services"
-            open={openDropdown === "services"}
-            onToggle={() => toggleDropdown("services")}
-            list={[
-              { label: "Consultancy", to: "/consultancy" },
-              { label: "Execution", to: "/execution" }
+            items={[
+              {
+                label: "Consultancy",
+                children: [
+                  { label: "Go-To-Market", to: "/go-to-market" },
+                  { label: "Digital Transformation", to: "/digital-transformation" },
+                ],
+              },
+              {
+                label: "Execution",
+                children: [
+                  { label: "Staffing", to: "/staffing" },
+                  { label: "Training", to: "/training" },
+                  { label: "ATL / BTL", to: "/atl-btl" },
+                  { label: "Drones", to: "/drones" },
+                ],
+              },
             ]}
           />
 
-          <MobileLink to="/clients" label="Clients" />
+          <NavItem to="/clients" label="Clients" />
 
-          <MobileDropdown
+          <Dropdown
             title="Careers"
-            open={openDropdown === "careers"}
-            onToggle={() => toggleDropdown("careers")}
-            list={[
+            items={[
               { label: "Vacancy", to: "/vacancy" },
-              { label: "Online Interview", to: "/interview" },
-              { label: "Referral Program", to: "/referral" }
+              { label: "Online Interview", to: "/onlineinterview" },
+              { label: "Referral Program", to: "/referral" },
             ]}
           />
 
-          <MobileDropdown
+          <Dropdown
             title="Login"
-            open={openDropdown === "login"}
-            onToggle={() => toggleDropdown("login")}
-            list={[
+            items={[
               { label: "Login", to: "/login" },
               { label: "Customer Login", to: "/customer-login" },
               { label: "Vendor Login", to: "/vendor-login" },
-              { label: "Employee Login", to: "/employee-login" }
+              { label: "Employee Login", to: "/employee-login" },
             ]}
           />
 
-          <MobileLink to="/contact" label="Contact" />
-        </div>
+          <NavItem to="/contact" label="Contact" />
+        </nav>
+      </div>
+
+      {/* ================= MOBILE MENU ================= */}
+      {mobileOpen && (
+        <MobileMenu openDropdown={openDropdown} toggleDropdown={toggleDropdown} />
       )}
     </header>
   );
 }
 
-/* ---------- SUB COMPONENTS ---------- */
+/* ======================================================================================
+   NAV ITEM
+====================================================================================== */
+const NavItem = ({ to, label }) => {
+  const { pathname } = useLocation();
+  const active = pathname === to;
 
-const NavLink = ({ to, children }) => (
-  <Link
-    to={to}
-    className="relative group text-[#222] hover:text-[#D32F2F] transition"
-  >
-    {children}
-    <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-[#D32F2F] group-hover:w-full transition-all duration-300"></span>
-  </Link>
-);
+  return (
+    <Link
+      to={to}
+      className={`relative group ${
+        active ? "text-[#D32F2F]" : "text-[#222] hover:text-[#D32F2F]"
+      }`}
+    >
+      {label}
+      <span
+        className={`absolute -bottom-1 left-0 h-[2px] bg-[#D32F2F] transition-all ${
+          active ? "w-full" : "w-0 group-hover:w-full"
+        }`}
+      ></span>
+    </Link>
+  );
+};
 
-const Dropdown = ({ title, list }) => (
-  <div className="relative group cursor-pointer">
-    <span className="hover:text-[#D32F2F]">{title}</span>
-    <div className="absolute left-0 top-full mt-3 hidden group-hover:block 
-                    bg-white shadow-2xl rounded-xl p-3 w-44 border border-gray-100 
-                    animate-fadeIn">
-      {list.map((item) => (
-        <Link
-          key={item.to}
-          className="block px-3 py-2 rounded-md text-sm hover:bg-gray-100 hover:text-[#D32F2F]"
-          to={item.to}
-        >
-          {item.label}
-        </Link>
-      ))}
+/* ======================================================================================
+   MULTI-LEVEL DROPDOWN (DESKTOP)
+====================================================================================== */
+const Dropdown = ({ title, items }) => {
+  return (
+    <div className="relative group cursor-pointer">
+      <span className="hover:text-[#D32F2F]">{title}</span>
+
+      <div
+        className="
+          absolute left-0 top-full -mt-1 hidden group-hover:block
+          w-64 bg-white/95 backdrop-blur-xl shadow-xl border border-gray-200
+          rounded-xl p-3 z-50
+        "
+      >
+        {items.map((item, i) => (
+          <div key={i} className="relative">
+            {/* Parent item WITH children */}
+            {item.children ? (
+              <div className="group/submenu">
+                <div className="px-3 py-2 font-semibold rounded-md hover:bg-[#D32F2F] hover:text-white flex justify-between">
+                  {item.label}
+                  <span>›</span>
+                </div>
+
+                {/* SUB-SUBMENU */}
+                <div
+                  className="
+                    absolute left-full top-0 hidden group-hover/submenu:block
+                    w-56 bg-white/95 backdrop-blur-xl shadow-xl border border-gray-200
+                    rounded-xl p-3 ml-1
+                  "
+                >
+                  {item.children.map((sub, j) => (
+                    <Link
+                      key={j}
+                      to={sub.to}
+                      className="
+                        block px-3 py-2 text-sm rounded-md
+                        hover:bg-[#D32F2F] hover:text-white transition
+                      "
+                    >
+                      {sub.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              /* Single-level items */
+              <Link
+                to={item.to}
+                className="
+                  block px-3 py-2 rounded-md
+                  hover:bg-[#D32F2F] hover:text-white transition
+                "
+              >
+                {item.label}
+              </Link>
+            )}
+          </div>
+        ))}
+      </div>
     </div>
+  );
+};
+
+/* ======================================================================================
+   MOBILE MENU (supports nested items)
+====================================================================================== */
+const MobileMenu = ({ openDropdown, toggleDropdown }) => (
+  <div
+    className="
+      md:hidden bg-white/95 backdrop-blur-xl 
+      border-t border-gray-300 rounded-b-2xl 
+      px-6 py-4 space-y-4
+    "
+  >
+    <MobileLink to="/" label="Home" />
+
+    <MobileDropdown
+      title="About Us"
+      id="about"
+      openDropdown={openDropdown}
+      toggleDropdown={toggleDropdown}
+      list={[
+        { label: "Our Story", to: "/ourstory" },
+        { label: "Team", to: "/team" },
+        { label: "Mission", to: "/mission" },
+      ]}
+    />
+
+    {/* SERVICES MULTILEVEL MOBILE */}
+    <MobileDropdown
+      title="Services"
+      id="services"
+      openDropdown={openDropdown}
+      toggleDropdown={toggleDropdown}
+      list={[
+        {
+          label: "Consultancy",
+          children: [
+            { label: "Go-To-Market", to: "/go-to-market" },
+            { label: "Digital Transformation", to: "/digital-transformation" },
+          ],
+        },
+        {
+          label: "Execution",
+          children: [
+            { label: "Staffing", to: "/staffing" },
+            { label: "Training", to: "/training" },
+            { label: "ATL / BTL", to: "/atl-btl" },
+            { label: "Drones", to: "/drones" },
+          ],
+        },
+      ]}
+    />
+
+    <MobileLink to="/clients" label="Clients" />
+
+    <MobileDropdown
+      title="Careers"
+      id="careers"
+      openDropdown={openDropdown}
+      toggleDropdown={toggleDropdown}
+      list={[
+        { label: "Vacancy", to: "/vacancy" },
+        { label: "Online Interview", to: "/onlineinterview" },
+        { label: "Referral Program", to: "/referral" },
+      ]}
+    />
+
+    <MobileDropdown
+      title="Login"
+      id="login"
+      openDropdown={openDropdown}
+      toggleDropdown={toggleDropdown}
+      list={[
+        { label: "Login", to: "/login" },
+        { label: "Customer Login", to: "/customer-login" },
+        { label: "Vendor Login", to: "/vendor-login" },
+        { label: "Employee Login", to: "/employee-login" },
+      ]}
+    />
+
+    <MobileLink to="/contact" label="Contact" />
   </div>
 );
 
+/* ======================================================================================
+   MOBILE NESTED COMPONENTS
+====================================================================================== */
+
 const MobileLink = ({ to, label }) => (
-  <Link className="block text-lg text-[#222]" to={to}>
+  <Link className="block text-lg text-[#333]" to={to}>
     {label}
   </Link>
 );
 
-const MobileDropdown = ({ title, open, onToggle, list }) => (
+const MobileDropdown = ({ title, id, openDropdown, toggleDropdown, list }) => (
   <div>
-    <button className="w-full text-left text-lg font-semibold" onClick={onToggle}>
+    <button
+      className="w-full text-left text-lg font-semibold text-[#222]"
+      onClick={() => toggleDropdown(id)}
+    >
       {title}
     </button>
-    {open && (
-      <div className="ml-4 mt-1 space-y-2 animate-fadeIn">
-        {list.map((item) => (
-          <Link
-            key={item.to}
-            to={item.to}
-            className="block text-[#444] hover:text-[#D32F2F]"
-          >
-            {item.label}
-          </Link>
-        ))}
+
+    {openDropdown === id && (
+      <div className="ml-4 mt-2 space-y-2">
+        {list.map((item, i) =>
+          item.children ? (
+            <div key={i}>
+              <div className="font-semibold text-[#444]">{item.label}</div>
+              <div className="ml-4 space-y-1 mt-1">
+                {item.children.map((sub, j) => (
+                  <Link
+                    key={j}
+                    to={sub.to}
+                    className="block text-[#666] hover:text-[#D32F2F]"
+                  >
+                    {sub.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <Link
+              key={i}
+              to={item.to}
+              className="block text-[#555] hover:text-[#D32F2F]"
+            >
+              {item.label}
+            </Link>
+          )
+        )}
       </div>
     )}
   </div>
