@@ -197,10 +197,11 @@ const AssessmentWizard = () => {
   }, [peopleScore, processScore, productScore]);
 
 
+  
   // ------------------------------
-  // BACKEND (TEMPORARY MODE)
-  // ------------------------------
-  const submitFullAssessment = async () => {
+// BACKEND (AZURE API MODE)
+// ------------------------------
+const submitFullAssessment = async () => {
   const payload = {
     name: contact.name,
     company: contact.company,
@@ -214,27 +215,32 @@ const AssessmentWizard = () => {
   };
 
   try {
-    const res = await fetch("http://localhost/i2v-api/api/saveAssessment.php", {
+    const API_BASE = process.env.REACT_APP_API_URL;
+
+    const res = await fetch(`${API_BASE}/api/assessment`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(payload),
     });
 
     const data = await res.json();
-    console.log("SERVER RESPONSE:", data);
+    console.log("AZURE API RESPONSE:", data);
 
-    // Show the results page
+    // Show results page
     setSubmitted(true);
     setShowContactForm(false);
 
   } catch (err) {
-    console.error("Error:", err);
-
-    // Fallback: show results even if backend fails
+    console.error("AZURE API ERROR:", err);
+   alert("Could not submit your data. Please try again.");
+    // Still show results even if backend fails
     setSubmitted(true);
     setShowContactForm(false);
   }
 };
+
 
   // ------------------------------
   // NAVIGATION
