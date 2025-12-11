@@ -215,7 +215,7 @@ const submitFullAssessment = async () => {
   };
 
   try {
-    const API_BASE = "https://assesmentinterview.azurewebsites.net";
+    const API_BASE = "https://assesmentinterview-fpase3apaycuc2f9.southindia-01.azurewebsites.net";
     const res = await fetch(`${API_BASE}/api/assessment`, {
       method: "POST",
       headers: {
