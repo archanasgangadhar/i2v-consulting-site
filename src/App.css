@@ -1,13 +1,23 @@
 #root {
+<<<<<<< HEAD
   max-width: 100%;
   margin: 0 auto;
   padding: 0rem;
+=======
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
   text-align: center;
 }
 
 .logo {
   height: 6em;
+<<<<<<< HEAD
   padding: 1em;
+=======
+  padding: 1.5em;
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
   will-change: filter;
   transition: filter 300ms;
 }

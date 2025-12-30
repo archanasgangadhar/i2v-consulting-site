@@ -1,14 +1,24 @@
 import { FiTrendingUp, FiLayers, FiGlobe, FiTarget, FiBarChart, FiUsers } from "react-icons/fi";
+<<<<<<< HEAD
 import Home2 from "./backup/Home2";
 export default function Consultancy() {
   return (
     
+=======
+
+export default function Consultancy() {
+  return (
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
     <div
       className="bg-white min-h-screen pt-20 pb-20"
       style={{ fontFamily: "Candara" }}
     >
+<<<<<<< HEAD
       <Home2></Home2>
       <div className="max-w-7xl p-7 mx-auto px-6">
+=======
+      <div className="max-w-7xl mx-auto px-6">
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
 
         {/* PAGE TITLE */}
         <div className="text-center mb-14">

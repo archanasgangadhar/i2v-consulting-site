@@ -114,6 +114,7 @@ export default function TriangleBalance_New_NoContainerEffects() {
         {/* CLEAN container — no glow, no tilt, no effects */}
         <div
           className={`
+<<<<<<< HEAD
              relative
     w-[270px] h-[270px]
     sm:w-[270px] sm:h-[270px]
@@ -121,6 +122,17 @@ export default function TriangleBalance_New_NoContainerEffects() {
     lg:w-[270px] lg:h-[270px]
     transition-all duration-1000
     ${isMounted ? "opacity-100 scale-100" : "opacity-0 scale-75"}`}
+=======
+            relative
+            w-[220px] h-[220px]
+sm:w-[280px] sm:h-[280px]
+md:w-[320px] md:h-[300px]
+lg:w-[360px] lg:h-[330px]
+
+            transition-all duration-1700
+            ${isMounted ? "opacity-100 scale-100" : "opacity-0 scale-75"}
+          `}
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
         >
           {/* TRIANGLE ONLY IMAGE BACKGROUND (clipped) */}
           <div
@@ -195,6 +207,7 @@ function Slider({ value, onChange }) {
   );
 }
 
+<<<<<<< HEAD
 
 /* NODE COMPONENT */
 function Node({ x, y, label, icon, tint, children }) {
@@ -239,3 +252,48 @@ function Node({ x, y, label, icon, tint, children }) {
   );
 }
 
+=======
+/* NODE COMPONENT */
+function Node({ x, y, label, icon, tint, children }) {
+  const soft = `${tint}33`; // soft tint
+  const glow = `${tint}80`; // soft glow
+
+  return (
+    <div
+      className="absolute flex flex-col items-center text-center transform -translate-x-1/2 -translate-y-1/2"
+      style={{ left: `${x}%`, top: `${y}%` }}
+    >
+      <div
+        className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center backdrop-blur-md border border-black rounded-full"
+        style={{
+          backgroundColor: soft,
+          boxShadow: `0 0 14px ${glow}`
+        }}
+      >
+        <span className="text-lg sm:text-xl">{icon}</span>
+      </div>
+
+      <div
+  className="mt-2 font-extrabold text-black"
+  style={{
+    fontSize: "20px",
+    textShadow: `
+      1px 1px 6px rgba(247, 243, 243, 0.95),
+      -1px -1px 3px rgba(221, 15, 15, 0.45)
+    `
+  }}
+>{label}</div>
+       <div
+  className="mt-2 font-extrabold text-black"
+  style={{
+    fontSize: "50px",
+    textShadow: `
+      1px 1px 6px rgba(247, 243, 243, 0.95),
+      -1px -1px 3px rgba(221, 15, 15, 0.45)
+    `
+  }}
+>{children}</div>
+    </div>
+  );
+}
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7

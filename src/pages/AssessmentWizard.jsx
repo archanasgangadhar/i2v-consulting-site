@@ -86,13 +86,21 @@ const AssessmentWizard = () => {
 
     if (field === "email") {
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+<<<<<<< HEAD
       if (!emailPattern.test(value)) newErrors.email = "Enter valid email required";
+=======
+      if (!emailPattern.test(value)) newErrors.email = "Enter valid email";
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
       else delete newErrors.email;
     }
 
     if (field === "phone") {
       const phonePattern = /^[0-9]{10}$/;
+<<<<<<< HEAD
       if (!phonePattern.test(value)) newErrors.phone = "Enter 10 digit phone required";
+=======
+      if (!phonePattern.test(value)) newErrors.phone = "Enter 10 digit phone";
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
       else delete newErrors.phone;
     }
 
@@ -308,6 +316,7 @@ const submitFullAssessment = async () => {
 
       {/* CONTACT FORM */}
       {showContactForm && !submitted && (
+<<<<<<< HEAD
         <section className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
 
           <div className="w-full max-w-md bg-white rounded-xl shadow-md p-8">
@@ -316,55 +325,104 @@ const submitFullAssessment = async () => {
 
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-1">Name *</label>
+=======
+        <section className="contact-form-section">
+
+          <div className="contact-form-card">
+            <h2 className="form-title">Tell Us About You</h2>
+            <p className="form-subtitle">Enter your details to view results.</p>
+
+            <div className="form-row">
+              <label>Name *</label>
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
               <input
                 type="text"
                 value={contact.name}
                 onChange={(e) => handleContactChange("name", e.target.value)}
+<<<<<<< HEAD
                 className={errors.name ? "w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500" : "" || "w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
          }
+=======
+                className={errors.name ? "input-error" : ""}
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
               />
               {errors.name && <span className="error-text">{errors.name}</span>}
             </div>
 
+<<<<<<< HEAD
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-1">Company *</label>
+=======
+            <div className="form-row">
+              <label>Company *</label>
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
               <input
                 type="text"
                 value={contact.company}
                 onChange={(e) => handleContactChange("company", e.target.value)}
+<<<<<<< HEAD
                 className={errors.company ? "w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500" : "" || "w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"}
+=======
+                className={errors.company ? "input-error" : ""}
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
               />
               {errors.company && <span className="error-text">{errors.company}</span>}
             </div>
 
+<<<<<<< HEAD
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+=======
+            <div className="form-row">
+              <label>Email *</label>
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
               <input
                 type="email"
                 value={contact.email}
                 onChange={(e) => handleContactChange("email", e.target.value)}
+<<<<<<< HEAD
                 className={errors.email ? "w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500" : "" || "w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"}
+=======
+                className={errors.email ? "input-error" : ""}
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
               />
               {errors.email && <span className="error-text">{errors.email}</span>}
             </div>
 
+<<<<<<< HEAD
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-1">Phone *</label>
+=======
+            <div className="form-row">
+              <label>Phone *</label>
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
               <input
                 type="tel"
                 value={contact.phone}
                 onChange={(e) => handleContactChange("phone", e.target.value)}
+<<<<<<< HEAD
                 className={errors.phone ? "w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500" : "" || "w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"}
+=======
+                className={errors.phone ? "input-error" : ""}
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
               />
               {errors.phone && <span className="error-text">{errors.phone}</span>}
             </div>
 
+<<<<<<< HEAD
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-1">Message (Optional)</label>
               <textarea
                 value={contact.message}
                 onChange={(e) => handleContactChange("message", e.target.value)}
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+=======
+            <div className="form-row">
+              <label>Message (Optional)</label>
+              <textarea
+                value={contact.message}
+                onChange={(e) => handleContactChange("message", e.target.value)}
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
               />
             </div>
 

@@ -10,7 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+<<<<<<< HEAD
     "idb": "^8.0.3",
+=======
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-icons": "^5.5.0",

@@ -82,7 +82,11 @@ export default function Execution() {
       <section className="bg-white border-t border-neutral-100">
         <div className="max-w-7xl mx-auto px-6 py-2">
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+<<<<<<< HEAD
             <div className="bg-gradient-to-r from-white to-red-900">
+=======
+            <div class="bg-gradient-to-r from-white to-red-900">
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
               <h2 className="text-xl sm:text-2xl font-bold text-[#222222]">
                 {/*     */ } <strong>What We Do</strong> -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-[#FFFFFF]">Technology-driven solutions from strategy to execution.</span> 
               </h2>

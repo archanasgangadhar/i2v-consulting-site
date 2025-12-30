@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { RiMenu3Fill, RiCloseFill } from "react-icons/ri";
+<<<<<<< HEAD
 import Bread from "./Breadcrums";
 
 // ====================== HELPER HOOK ======================
@@ -11,22 +12,34 @@ const useActive = (to) => {
 
 // ====================== HEADER COMPONENT ======================
 export default function Header() {
+=======
+
+export default function Header() {
+  const location = useLocation();
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [shrink, setShrink] = useState(false);
 
   const toggleMobile = () => setMobileOpen(!mobileOpen);
+<<<<<<< HEAD
   const closeMobile = () => setMobileOpen(false);
   const toggleDropdown = (key) =>
     setOpenDropdown(openDropdown === key ? null : key);
 
   // Scroll shrink effect
+=======
+  const toggleDropdown = (key) =>
+    setOpenDropdown(openDropdown === key ? null : key);
+
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
   useEffect(() => {
     const handleScroll = () => setShrink(window.scrollY > 60);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+<<<<<<< HEAD
   // Auth state
   const [isAuth, setIsAuth] = useState(false);
   const [userRole, setUserRole] = useState(null);
@@ -81,22 +94,57 @@ export default function Header() {
             className={`hidden sm:inline-block font-bold tracking-wide text-[#222] whitespace-nowrap transition-all duration-300 ease-in-out ${
               shrink ? "opacity-0 -translate-x-2 w-0" : "opacity-100 translate-x-0 w-auto"
             } text-lg sm:text-xl lg:text-2xl`}
+=======
+  return (
+    <header
+      className={`
+        fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-xl 
+        border-b border-gray-300 shadow-md transition-all duration-300
+        ${shrink ? "py-1" : "py-3"}
+      `}
+      style={{ fontFamily: "Candara" }}
+    >
+      <div className="w-full h-[3px] bg-[#D32F2F] absolute top-0 left-0"></div>
+
+      <div className="flex items-center justify-between px-6">
+
+        {/* LOGO */}
+        <Link to="/" className="flex items-center gap-3">
+          <img
+            src="/assets/images/logo2.jpg"
+            className={`rounded-lg shadow-md transition-all ${
+              shrink ? "h-10" : "h-14"
+            }`}
+          />
+          <span
+            className={`font-bold tracking-wide text-[#222] transition-all ${
+              shrink ? "text-xl" : "text-2xl"
+            }`}
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
           >
             Idea to Value
           </span>
         </Link>
 
+<<<<<<< HEAD
         {/* MOBILE MENU BUTTON */}
         <button
           className="lg:hidden text-4xl text-[#222] p-2 rounded hover:bg-gray-200 transition"
           onClick={toggleMobile}
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileOpen}
+=======
+        {/* MOBILE ICON */}
+        <button
+          className="md:hidden text-4xl text-[#222]"
+          onClick={toggleMobile}
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
         >
           {mobileOpen ? <RiCloseFill /> : <RiMenu3Fill />}
         </button>
 
         {/* DESKTOP NAV */}
+<<<<<<< HEAD
         <nav className="hidden lg:flex justify-items-center justify-end items-center gap-8 flex-wrap font-semibold text-lg">
           <NavItem to="/" label="Home" />
 
@@ -110,20 +158,44 @@ export default function Header() {
             to="/about"
           />
 
+=======
+        <nav className="hidden md:flex items-center gap-10 font-semibold text-lg">
+
+          <NavItem to="/" label="Home" />
+
+          {/* ABOUT */}
+          <Dropdown
+            title="About Us"
+            items={[
+              { label: "Our Story", to: "/ourstory" },
+              { label: "Team", to: "/team" },
+              { label: "Mission", to: "/mission" },
+            ]}
+          />
+
+          {/* SERVICES WITH MULTI-LEVEL SUBMENU */}
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
           <Dropdown
             title="Services"
             items={[
               {
                 label: "Consultancy",
                 children: [
+<<<<<<< HEAD
                   { label: "Go-To-Market", to: "/services/consultancy/go-to-market" },
                   { label: "Digital Transformation", to: "/services/consultancy/digital-transformation" },
                 ],
                 to: "/services/consultancy",
+=======
+                  { label: "Go-To-Market", to: "/go-to-market" },
+                  { label: "Digital Transformation", to: "/digital-transformation" },
+                ],
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
               },
               {
                 label: "Execution",
                 children: [
+<<<<<<< HEAD
                   { label: "Staffing", to: "/services/execution/staffing" },
                   { label: "Training", to: "/services/execution/training" },
                   { label: "ATL / BTL", to: "/services/execution/atl-btl" },
@@ -133,6 +205,15 @@ export default function Header() {
               },
             ]}
             to="/services"
+=======
+                  { label: "Staffing", to: "/staffing" },
+                  { label: "Training", to: "/training" },
+                  { label: "ATL / BTL", to: "/atl-btl" },
+                  { label: "Drones", to: "/drones" },
+                ],
+              },
+            ]}
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
           />
 
           <NavItem to="/clients" label="Clients" />
@@ -140,6 +221,7 @@ export default function Header() {
           <Dropdown
             title="Careers"
             items={[
+<<<<<<< HEAD
               { label: "Vacancy", to: "/careers/vacancy" },
               { label: "Online Interview", to: "/careers/onlineinterview" },
               { label: "Referral Program", to: "/careers/referral" },
@@ -187,11 +269,29 @@ export default function Header() {
               to="/login"
             />
           )}
+=======
+              { label: "Vacancy", to: "/vacancy" },
+              { label: "Online Interview", to: "/onlineinterview" },
+              { label: "Referral Program", to: "/referral" },
+            ]}
+          />
+
+          <Dropdown
+            title="Login"
+            items={[
+              { label: "Login", to: "/login" },
+              { label: "Customer Login", to: "/customer-login" },
+              { label: "Vendor Login", to: "/vendor-login" },
+              { label: "Employee Login", to: "/employee-login" },
+            ]}
+          />
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
 
           <NavItem to="/contact" label="Contact" />
         </nav>
       </div>
 
+<<<<<<< HEAD
       {/* MOBILE MENU */}
       {mobileOpen && (
         <MobileMenu
@@ -205,10 +305,17 @@ export default function Header() {
       )}
 
       <Bread />
+=======
+      {/* ================= MOBILE MENU ================= */}
+      {mobileOpen && (
+        <MobileMenu openDropdown={openDropdown} toggleDropdown={toggleDropdown} />
+      )}
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
     </header>
   );
 }
 
+<<<<<<< HEAD
 // ====================== NAV ITEM ======================
 const NavItem = ({ to, label }) => {
   const active = useActive(to);
@@ -217,6 +324,20 @@ const NavItem = ({ to, label }) => {
       to={to}
       className={`relative group px-2 py-1 rounded-md transition-colors duration-200 ${
         active ? "text-[#D32F2F]" : "text-[#222] hover:text-[#D32F2F] hover:bg-gray-100"
+=======
+/* ======================================================================================
+   NAV ITEM
+====================================================================================== */
+const NavItem = ({ to, label }) => {
+  const { pathname } = useLocation();
+  const active = pathname === to;
+
+  return (
+    <Link
+      to={to}
+      className={`relative group ${
+        active ? "text-[#D32F2F]" : "text-[#222] hover:text-[#D32F2F]"
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
       }`}
     >
       {label}
@@ -229,6 +350,7 @@ const NavItem = ({ to, label }) => {
   );
 };
 
+<<<<<<< HEAD
 // ====================== DROPDOWN ======================
 const Dropdown = ({ title, items, to }) => {
   const activeParent = useActive(to);
@@ -488,22 +610,65 @@ const MobileDropdown = ({ title, to, openDropdown, toggleDropdown, list, closeMo
                   {item.label}
                 </Link>
                 <div className="ml-4 space-y-1">
+=======
+/* ======================================================================================
+   MULTI-LEVEL DROPDOWN (DESKTOP)
+====================================================================================== */
+const Dropdown = ({ title, items }) => {
+  return (
+    <div className="relative group cursor-pointer">
+      <span className="hover:text-[#D32F2F]">{title}</span>
+
+      <div
+        className="
+          absolute left-0 top-full -mt-1 hidden group-hover:block
+          w-64 bg-white/95 backdrop-blur-xl shadow-xl border border-gray-200
+          rounded-xl p-3 z-50
+        "
+      >
+        {items.map((item, i) => (
+          <div key={i} className="relative">
+            {/* Parent item WITH children */}
+            {item.children ? (
+              <div className="group/submenu">
+                <div className="px-3 py-2 font-semibold rounded-md hover:bg-[#D32F2F] hover:text-white flex justify-between">
+                  {item.label}
+                  <span>›</span>
+                </div>
+
+                {/* SUB-SUBMENU */}
+                <div
+                  className="
+                    absolute left-full top-0 hidden group-hover/submenu:block
+                    w-56 bg-white/95 backdrop-blur-xl shadow-xl border border-gray-200
+                    rounded-xl p-3 ml-1
+                  "
+                >
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
                   {item.children.map((sub, j) => (
                     <Link
                       key={j}
                       to={sub.to}
+<<<<<<< HEAD
                       onClick={closeMobile}
                       className={`flex items-center py-2 px-2 text-sm rounded-md transition-colors duration-200 ${
                         isActive(sub.to)
                           ? "text-[#D32F2F] bg-gray-100"
                           : "text-[#555] hover:text-[#D32F2F] hover:bg-gray-100"
                       }`}
+=======
+                      className="
+                        block px-3 py-2 text-sm rounded-md
+                        hover:bg-[#D32F2F] hover:text-white transition
+                      "
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
                     >
                       {sub.label}
                     </Link>
                   ))}
                 </div>
               </div>
+<<<<<<< HEAD
             ) : item.action ? (
               <button
                 key={i}
@@ -536,3 +701,157 @@ const MobileDropdown = ({ title, to, openDropdown, toggleDropdown, list, closeMo
     </div>
   );
 };
+=======
+            ) : (
+              /* Single-level items */
+              <Link
+                to={item.to}
+                className="
+                  block px-3 py-2 rounded-md
+                  hover:bg-[#D32F2F] hover:text-white transition
+                "
+              >
+                {item.label}
+              </Link>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+/* ======================================================================================
+   MOBILE MENU (supports nested items)
+====================================================================================== */
+const MobileMenu = ({ openDropdown, toggleDropdown }) => (
+  <div
+    className="
+      md:hidden bg-white/95 backdrop-blur-xl 
+      border-t border-gray-300 rounded-b-2xl 
+      px-6 py-4 space-y-4
+    "
+  >
+    <MobileLink to="/" label="Home" />
+
+    <MobileDropdown
+      title="About Us"
+      id="about"
+      openDropdown={openDropdown}
+      toggleDropdown={toggleDropdown}
+      list={[
+        { label: "Our Story", to: "/ourstory" },
+        { label: "Team", to: "/team" },
+        { label: "Mission", to: "/mission" },
+      ]}
+    />
+
+    {/* SERVICES MULTILEVEL MOBILE */}
+    <MobileDropdown
+      title="Services"
+      id="services"
+      openDropdown={openDropdown}
+      toggleDropdown={toggleDropdown}
+      list={[
+        {
+          label: "Consultancy",
+          children: [
+            { label: "Go-To-Market", to: "/go-to-market" },
+            { label: "Digital Transformation", to: "/digital-transformation" },
+          ],
+        },
+        {
+          label: "Execution",
+          children: [
+            { label: "Staffing", to: "/staffing" },
+            { label: "Training", to: "/training" },
+            { label: "ATL / BTL", to: "/atl-btl" },
+            { label: "Drones", to: "/drones" },
+          ],
+        },
+      ]}
+    />
+
+    <MobileLink to="/clients" label="Clients" />
+
+    <MobileDropdown
+      title="Careers"
+      id="careers"
+      openDropdown={openDropdown}
+      toggleDropdown={toggleDropdown}
+      list={[
+        { label: "Vacancy", to: "/vacancy" },
+        { label: "Online Interview", to: "/onlineinterview" },
+        { label: "Referral Program", to: "/referral" },
+      ]}
+    />
+
+    <MobileDropdown
+      title="Login"
+      id="login"
+      openDropdown={openDropdown}
+      toggleDropdown={toggleDropdown}
+      list={[
+        { label: "Login", to: "/login" },
+        { label: "Customer Login", to: "/customer-login" },
+        { label: "Vendor Login", to: "/vendor-login" },
+        { label: "Employee Login", to: "/employee-login" },
+      ]}
+    />
+
+    <MobileLink to="/contact" label="Contact" />
+  </div>
+);
+
+/* ======================================================================================
+   MOBILE NESTED COMPONENTS
+====================================================================================== */
+
+const MobileLink = ({ to, label }) => (
+  <Link className="block text-lg text-[#333]" to={to}>
+    {label}
+  </Link>
+);
+
+const MobileDropdown = ({ title, id, openDropdown, toggleDropdown, list }) => (
+  <div>
+    <button
+      className="w-full text-left text-lg font-semibold text-[#222]"
+      onClick={() => toggleDropdown(id)}
+    >
+      {title}
+    </button>
+
+    {openDropdown === id && (
+      <div className="ml-4 mt-2 space-y-2">
+        {list.map((item, i) =>
+          item.children ? (
+            <div key={i}>
+              <div className="font-semibold text-[#444]">{item.label}</div>
+              <div className="ml-4 space-y-1 mt-1">
+                {item.children.map((sub, j) => (
+                  <Link
+                    key={j}
+                    to={sub.to}
+                    className="block text-[#666] hover:text-[#D32F2F]"
+                  >
+                    {sub.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <Link
+              key={i}
+              to={item.to}
+              className="block text-[#555] hover:text-[#D32F2F]"
+            >
+              {item.label}
+            </Link>
+          )
+        )}
+      </div>
+    )}
+  </div>
+);
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7

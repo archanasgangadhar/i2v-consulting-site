@@ -1,5 +1,8 @@
 @import "tailwindcss";
+<<<<<<< HEAD
 
+=======
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
 @keyframes slideDown {
   from { opacity: 0; transform: translateY(-8px); }
   to { opacity: 1; transform: translateY(0); }

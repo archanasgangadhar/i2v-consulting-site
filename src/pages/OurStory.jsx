@@ -44,7 +44,11 @@ export default function OurStory() {
                   Explore How We Work
                 </a>
                 <a
+<<<<<<< HEAD
                   href="/about/mission"
+=======
+                  href="/mission"
+>>>>>>> 824dcd6460ac3d92cd37b815f3c1c7d2a85ba8c7
                   className="inline-flex items-center rounded-full border border-[#D32F2F] px-5 py-2.5 text-sm text-[#D32F2F] hover:bg-[#FFF5F5] transition"
                 >
                   View Our Mission
