@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="assets/images/logo2.png"/>
+    
+    <title>I2V-Consulting-Site</title>
+    <script>
+(function () {
+  function setViewport() {
+    const baseWidth = 800;
+    const deviceWidth = window.innerWidth;
+    const scale = Math.min(1, Math.max(deviceWidth / baseWidth, 0.5));
+
+    let meta = document.querySelector('meta[name="viewport"]');
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.name = "viewport";
+      document.head.appendChild(meta);
+    }
+
+    // Replace viewport content every time width changes
+    meta.setAttribute(
+      "content",
+      `width=${baseWidth}, initial-scale=${scale}`
+    );
+  }
+
+  setViewport();
+  window.addEventListener("resize", setViewport);
+})();
+</script>
+
+
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
